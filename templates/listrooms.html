@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <form action = "/" method = "POST">
+     <input type="submit" id='script' name="submit" value="Run Script">
+    </form>
+    <button>Create Room</button>
+
+    {% if rooms|length <1 %}
+        <h1>There are no rooms available right now!</h1>
+    {% else %}
+        {% for room in rooms %}
+            <div>{{ room.name }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
