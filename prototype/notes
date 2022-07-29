@@ -1,0 +1,125 @@
+initializing tailwind
+    - npm init
+    - npm install -D tailwindcss
+     npx tailwindcss init
+
+    tailwind.config.js:
+        content: ["./*.{html,php}"], OR
+        content: ["./*.html"],
+
+    global.css:
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+    package.json:
+        "scripts": {
+        "dev": "npx tailwindcss -i assets/css/global.css -o assets/css/tailwind.css --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+        },
+
+    - npm run dev
+
+    TAILWIND CLASSES
+        ##Center a container
+            "container mx-auto"
+            OR
+            tailwind.config.js:
+                theme: {
+                    container: {
+                    center: true,
+                    },
+                },
+        ##Background-color
+            "bg-[#849204]"
+            "bg-<color name>"
+            "bg-blue-900"
+
+        ##Padding
+            "px-"
+            "py-"
+            "py-9"
+            "py[30px]"
+            "px-[43px]"
+        ##Margin
+            "mr-[51px]"
+            "my-[65px]"
+            "mx-[53px]"
+            "mt-[23px]"
+
+        ##width and height
+            "w-[200px]"
+            "h-auto"
+            "max-w-[730] w-full"
+            #for flex
+            "w-8/12"
+            "w-4/12"
+
+        ##add flex class - NAVIGATION BAR
+            #container
+            "container flex justify-between items-center flex-wrap"
+            #ul
+            "flex flex-wrap"
+            #li - margin
+            "mr-[51px]"
+
+        ##text color/size/font
+            #color
+            "text-white"
+            "text-<color>"
+            "text-gray-900"
+            #size
+            "text-[16px]"
+            #font
+            "font-sans"
+            #weight
+            "font-normal"
+            "font-medium"
+            "font-bold"
+            "font-semibold"
+            #center
+            "text-center"
+            #line height
+            "leading-[88px]"
+            #line height and font size
+            "text-lg"
+
+        ##border
+            "border"
+            "border-2"
+            #color
+            "border-white"
+            "border-transparent"
+        
+        ##hover
+            "hover:text-black"
+            "hover:bg-white"
+        ##transition
+            "transition duration-100"
+        
+        ##not draggable image
+            "pointer-events-non"
+        
+        ##border radius
+            "rounded-lg"
+
+        ##POsition
+            "relative"
+            "absolute"
+            "fixed"
+
+        ##Clip immage to fix size
+            "object-cover"
+
+        ##anchor image
+            "block"
+
+
+
+        
+
+
+
+
+
+             
