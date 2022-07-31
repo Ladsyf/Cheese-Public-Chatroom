@@ -2,3 +2,4 @@ anyone can create a room
 
 a room can only handle specific number of messages, if it reached certain number of messages, it will be destroyed
 
+every room has id, name, date, visibility, number of messages

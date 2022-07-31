@@ -9,21 +9,24 @@
 
 </head>
 <body class = "bg-gray-900">
+
     <!-- Two Buttons/Navigation -->
     <div class = "flex flex-wrap w-full">
         <button class = "bg-inherit w-6/12 rounded-lg text-center text-slate-400 text-lg py-5 font-extralight border border-transparent">
             CREATE A ROOM
         </button>
         <button class = "bg-gray-800 w-6/12 rounded-lg text-center border-l-0 text-slate-400 text-lg py-5 font-extralight border border-transparent">
-            ROOMS
+            CHAT ROOMS
         </button>
     </div>
+
     <!-- Create Room Div -->
-    <div class = "div1">
+    <div class = "div1 hidden">
         <!-- Create Hero -->
         <div class = "h-[calc(45vh-55px)] flex justify-center items-center">
             <h1 class = "text-4xl text-slate-500 font-sans font-medium">Say Hello to the World!</h1>
         </div>
+
         <!-- Create Form -->
         <div class = "h-[calc(55vh-45px)] flex flex-wrap justify-center">
                 <form>
@@ -38,7 +41,32 @@
                 </form>
         </div>
     </div>
-    <div>
+
+    <!-- Chatrooms List -->
+    <div class = "div2">
+
+        <!-- form for search function -->
+        <div class = "flex justify-center flex-wrap">
+        <form>
+            <input type = "text" placeholder = "Search Chat Room" class = "bg-slate-800 rounded-md p-3 text-slate-400 font-light focus:outline-none">
+            <input type = "submit" value = "Go!" class = "bg-blue-900 rounded-md text-slate-200 p-4 py-3">
+        </form>
+        </div>
+
+        <!-- Rooms List -->
+        <div class = "flex flex-wrap mx-[100px]">
+
+            <div class = "border border-gray-800 w-[calc(50%-8px)] m-1 rounded p-5 overflow-hidden">
+                <h2 class = "text-slate-400 text-2xl font-semibold">
+                    Room Name1 
+                </h2>
+                <p class = "text-slate-500">12-23-2022</p>
+            </div>
+            
+
+        </div>
+
     </div>
+
 </body>
 </html>
