@@ -607,6 +607,10 @@ video {
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-\[calc\(45vh-55px\)\] {
   height: calc(45vh - 55px);
 }

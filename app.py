@@ -88,6 +88,10 @@ def roomview(RID, name): # add number of messages
     else:
         return redirect(url_for('index'))
 
+@app.route('/chatlog/<RID>')
+def chatlogs(RID):
+    messages = Logs.query.filter_by(RID=RID).all()
+    return render_template('partial/chatlog.html', messages = messages)
 
 
 
