@@ -558,6 +558,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.static {
+  position: static;
+}
+
 .float-left {
   float: left;
 }
@@ -566,19 +570,9 @@ video {
   margin: 0.25rem;
 }
 
-.mx-\[100px\] {
-  margin-left: 100px;
-  margin-right: 100px;
-}
-
 .mx-\[50px\] {
   margin-left: 50px;
   margin-right: 50px;
-}
-
-.mx-\[200px\] {
-  margin-left: 200px;
-  margin-right: 200px;
 }
 
 .mb-2 {
@@ -593,16 +587,12 @@ video {
   margin-top: 0.5rem;
 }
 
-.ml-\[100px\] {
-  margin-left: 100px;
+.ml-\[50px\] {
+  margin-left: 50px;
 }
 
 .mt-10 {
   margin-top: 2.5rem;
-}
-
-.ml-\[50px\] {
-  margin-left: 50px;
 }
 
 .flex {
@@ -819,11 +809,6 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.py-\[50px\] {
-  padding-top: 50px;
-  padding-bottom: 50px;
 }
 
 .text-center {

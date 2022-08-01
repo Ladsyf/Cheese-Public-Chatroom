@@ -1,17 +1,39 @@
-{% extends 'layout.html' %}
+{% extends 'layouts/layout_land.html' %}
 
 {% block content %}
 
-    <form action = "/" method = "POST">
-     <input type="submit" id='script' name="submit" value="Run Script">
-    </form>
-    <button>Create Room</button>
+    <div class = "div2">
 
-    {% if rooms|length <1 %}
-        <h1>There are no rooms available right now!</h1>
-    {% else %}
-        {% for room in rooms %}
-            <div>{{ room.name }}</div>
-        {% endfor %}
-    {% endif %}
+        <!-- form for search function -->
+        <div class = "flex justify-start flex-wrap py-10">
+        <form>
+            <input type = "text" placeholder = "Search Chat Room" class = "bg-slate-800 rounded-md p-3 text-slate-400 font-light focus:outline-none ml-[50px]">
+            <input type = "submit" value = "Go!" class = "bg-blue-900 rounded-md text-slate-200 p-4 py-3">
+        </form>
+        </div>
+
+        <!-- Rooms List -->
+        <div class = "flex flex-wrap mx-[50px]">
+      {% if rooms|length < 1 %}
+
+        <h4 class = "text-center text-slate-400">No active rooms found!</h4>
+
+      {% else %}
+            {% for room in rooms %}
+
+            <div class = "border border-gray-800 w-[calc(50%-8px)] m-1 rounded p-5 overflow-hidden hover:bg-gray-800 transition">
+                <a href = {{url_for('roomview', RID = room.RID, name = room.name)}}>
+                    <h2 class = "text-slate-400 text-2xl cursor-pointer font-semibold truncate hover:underline">
+                        {{room.name}} - {{room.messages}}/800
+                    </h2>
+                </a>
+                <p class = "text-slate-500">Created: {{room.date}}</p>
+                <p class = "text-slate-600 text-[14px] font-normal truncate">Last Message: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae eum consequatur animi nobis architecto, consectetur distinctio omnis eveniet totam, temporibus accusantium, aliquid assumenda officia quaerat! Expedita sit odit repellendus iste."</p>
+            </div>
+
+            {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
 {% endblock %}

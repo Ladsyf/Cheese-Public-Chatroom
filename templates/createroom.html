@@ -1,0 +1,27 @@
+{% extends 'layouts/layout_land.html' %}
+
+{% block content %}
+
+    <div class = "div1">
+        <!-- Create Hero -->
+        <div class = "h-[calc(45vh-55px)] flex justify-center items-center">
+            <h1 class = "text-4xl text-slate-500 font-sans font-medium">Say Hello to the World!</h1>
+        </div>
+
+        <!-- Create Form -->
+        <div class = "h-[calc(55vh-45px)] flex flex-wrap justify-center">
+                <form action = "" method = "POST">
+                    <input type = "text" placeholder = "Enter a Room Name" name = "name" class = "bg-slate-800 rounded-md p-3 text-slate-400 font-light focus:outline-none mb-2"><br>
+                    <div class = "text-center text-slate-400 float-left w-1/2">
+                        <input type = "radio" name = "visibility" id = "public" value = "public" class = "mr-3" checked><label for = "public">Public</label>
+                    </div>
+                    <div class = "text-center text-slate-400 float-left w-1/2">
+                        <input type = "radio" name = "visibility" id = "private" value = "private" class = "mr-3"><label for = "private">Private</label>
+                    </div>
+                    <input type = "submit" name = "submit" value = "Create!" class = "w-full bg-blue-900 rounded-md text-slate-200 py-3 mt-2">
+                </form>
+        </div>
+    </div>
+
+
+{% endblock %}
