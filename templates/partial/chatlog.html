@@ -1,0 +1,9 @@
+
+            {% if messages|length < 1 %}
+            <p class = "text-slate-400 text-center mb-[50px]">No Messages Created yet! Send a message anonymously!</p>
+            {% else %}
+                {% for x in range(messages|length) %}
+                    <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}}</p><br>
+                {% endfor %}
+            {% endif %}
+            <p class = "text-slate-400 text-center mb-[50px]">An anonymous started this chat room!</p>

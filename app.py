@@ -35,12 +35,10 @@ class Logs(db.Model):
     MID = db.Column(db.Integer, primary_key=True)
     RID = db.Column(db.Integer, nullable=False)
     message = db.Column(db.String(1000), nullable=False)
-    timestamp = db.Column(db.Date, nullable=False)
 
-    def __init__(self, RID, message, timestamp):
+    def __init__(self, RID, message):
         self.RID = RID
         self.message = message
-        self.timestamp = timestamp
 
     def __repr__(self):
         return '<Logs %r>' % self.MID
@@ -62,16 +60,27 @@ def createroom():
             flash('Name already exists!')
         else:
             date = datetime.now()
-            add = Rooms(request.form['name'], date, request.form['visibility'], 0)
+            room = Rooms(request.form['name'], date, request.form['visibility'], 0)
 
-            db.session.add(add)
+            db.session.add(room)
             db.session.commit()
             flash('Successfully Added!')
             return redirect(url_for('index'))
     return render_template('createroom.html')
 
-@app.route('/room/<RID>/<name>', methods=['GET'])
-def roomview(RID, name):
+@app.route('/room/<RID>/<name>', methods=['GET', 'POST'])
+def roomview(RID, name): # add number of messages
+    if request.method == "POST":
+        if not request.form['message']:
+            flash('Please Enter a message!')
+        else:
+            message = Logs(RID, request.form['message'])
+
+            db.session.add(message)
+            db.session.commit()
+            flash('Message sent!')
+            return redirect(url_for('roomview', RID = RID, name = name))
+
     room = Rooms.query.filter_by(RID=RID, name = name).first()
     messages = Logs.query.filter_by(RID=RID).all()
     if room:
