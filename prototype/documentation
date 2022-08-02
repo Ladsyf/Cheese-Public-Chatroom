@@ -30,6 +30,7 @@ creating heroku app -- https://cheesecake142.herokuapp.com/
     #get the database URL
     heroku config --app <appname>
     #copy the url and paste on SQLDATABASE on app.py app.config
+    #POSTGRES SHOULD BE POSTGRESQL
 
     #BEFORE PUSHING DELETE ALL LINKS AND UNNECESSARY LIBRARIES ON REQUIREMENTS.TXT FILE
 
@@ -37,6 +38,11 @@ creating heroku app -- https://cheesecake142.herokuapp.com/
     git add .
     git commit asdjkljflkdr
     git push heroku main
+
+    #Migrate database
+    heroku run python
+    from app import db
+    db.create_all()
 
 Tailwind deploy
     npx tailwindcss -o build.css --minify
