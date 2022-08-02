@@ -31,6 +31,8 @@ creating heroku app -- https://cheesecake142.herokuapp.com/
     heroku config --app <appname>
     #copy the url and paste on SQLDATABASE on app.py app.config
 
+    #BEFORE PUSHING DELETE ALL LINKS AND UNNECESSARY LIBRARIES ON REQUIREMENTS.TXT FILE
+
     #push it
     git add .
     git commit asdjkljflkdr
