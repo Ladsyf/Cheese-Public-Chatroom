@@ -20,7 +20,6 @@
 
       {% else %}
             {% for room in rooms %}
-
             <div class = "border border-gray-800 w-[calc(50%-8px)] m-1 rounded p-5 overflow-hidden hover:bg-gray-800 transition">
                 <a href = {{url_for('roomview', RID = room.RID, name = room.name)}}>
                     <h2 class = "text-slate-400 text-2xl cursor-pointer font-semibold truncate hover:underline">
@@ -28,7 +27,8 @@
                     </h2>
                 </a>
                 <p class = "text-slate-500">Created: {{room.date}}</p>
-                <p class = "text-slate-600 text-[14px] font-normal truncate">Last Message: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae eum consequatur animi nobis architecto, consectetur distinctio omnis eveniet totam, temporibus accusantium, aliquid assumenda officia quaerat! Expedita sit odit repellendus iste."</p>
+
+                <p class = "text-slate-600 text-[14px] font-normal truncate">Last Message: "{{LastMessage(room.RID)}}"</p>
             </div>
             {% endfor %}
         </div>

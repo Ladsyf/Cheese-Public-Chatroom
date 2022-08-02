@@ -35,7 +35,7 @@
       socket.on( 'my response', function( msg ) {
       if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
-        jQuery.ajax({
+        $.ajax({
             url: '/chatlog/' + {{RID}},
             success: function(response){
             $('#chatlog').html(response);

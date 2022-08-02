@@ -51,10 +51,17 @@ class Logs(db.Model):
 db.create_all()
 db.session.commit()
 
+def getLastMessage(RID):
+    LastMessage = Logs.query.filter_by(RID=RID).order_by(Logs.MID.desc()).first()
+    if LastMessage:
+        return LastMessage.message
+    return "No messages yet..."
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     public_room = Rooms.query.filter_by(visibility = "public").all()
-    return render_template('listrooms.html', rooms = public_room)
+    lm = Logs.query.all()
+    return render_template('listrooms.html',rooms = public_room, LastMessage = getLastMessage)
 
 @app.route('/createroom', methods=['GET', 'POST'])
 def createroom():
