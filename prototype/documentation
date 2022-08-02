@@ -36,6 +36,8 @@ creating heroku app -- https://cheesecake142.herokuapp.com/
     git commit asdjkljflkdr
     git push heroku main
 
+Tailwind deploy
+    npx tailwindcss -o build.css --minify
 
 
 
