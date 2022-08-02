@@ -43,10 +43,11 @@ $(document).ready(function(){
 });
 function send(RID, Message){
     console.log(RID + " " + Message)
-         jQuery.ajax({
-            url: '/addMsg/' + RID + '/' + Message,
-            success: function(response){
-            $('#chatlog').html(response);
-         },
+         $.ajax({
+         method: "POST",
+         url: '/addMsg',
+         data: "RID=" + RID + "&message=" + Message
+    }).done(function(response){
+        $('#chatlog').html(response);
     });
 }

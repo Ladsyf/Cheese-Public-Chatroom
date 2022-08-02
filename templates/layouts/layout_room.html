@@ -25,7 +25,7 @@
         var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
           message = $('#message').val()
-          RID = $('#uRID').val()
+          msgCount = {{room.messages}}
           socket.emit('my event', {
                message : message
           })
@@ -42,7 +42,6 @@
             },
         });
         }
-
       })
     </script>
 

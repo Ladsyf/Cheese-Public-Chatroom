@@ -100,12 +100,16 @@ def chatlogs(RID):
     messages = Logs.query.filter_by(RID=RID).all()
     return render_template('partial/chatlog.html', messages = messages)
 
-@app.route('/addMsg/<RID>/<message>')
-def addMsg(RID,message):
-    print(RID + " " + message)
-    CRUDroom.updateMessage(db, Rooms, RID)
-    CRUDmessage.addMessage(db, Logs, RID, message)
-    return redirect(url_for('chatlogs', RID = RID))
+@app.route('/addMsg', methods = ['POST'])
+def addMsg():
+    if request.method == "POST":
+        RID = request.form['RID']
+        message = request.form['message']
+        CRUDroom.updateMessage(db, Rooms, RID)
+        CRUDmessage.addMessage(db, Logs, RID, message)
+        return redirect(url_for('chatlogs', RID = RID))
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/session', methods=['GET', 'POST'])
 def session():
