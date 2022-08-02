@@ -21,7 +21,7 @@ deploying to heroku flask, changes to make:
 	#Procfile to run server
 	echo web: app:app > Procfile
 
-creating heroku app
+creating heroku app -- https://cheesecake142.herokuapp.com/
     heroku create <appname> -- cheesecake142
 
     #create database on heroku
@@ -31,6 +31,10 @@ creating heroku app
     heroku config --app <appname>
     #copy the url and paste on SQLDATABASE on app.py app.config
 
+    #push it
+    git add .
+    git commit asdjkljflkdr
+    git push heroku main
 
 
 
