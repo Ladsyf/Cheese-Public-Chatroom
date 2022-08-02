@@ -19,7 +19,7 @@ deploying to heroku flask, changes to make:
 	pip freeze > requirements.txt
 
 	#Procfile to run server
-	echo web: app:app > Procfile
+	echo web: gunicorn app:app > Procfile
 
 creating heroku app -- https://cheesecake142.herokuapp.com/
     heroku create <appname> -- cheesecake142
