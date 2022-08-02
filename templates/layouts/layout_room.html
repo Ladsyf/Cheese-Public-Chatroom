@@ -6,11 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>#{{RID}} - {{name}}</title>
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src = "{{url_for('static', filename='src/script.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 </head>
 <body class = "bg-gray-900">
+
+
     {% block content %}
     {% endblock %}
+
+   <script type="text/javascript">
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      socket.on( 'connect', function() {
+        socket.emit( 'my event', {
+          data: 'User Connected'
+        } )
+        var form = $( 'form' ).on( 'submit', function( e ) {
+          e.preventDefault()
+          message = $('#message').val()
+          RID = $('#uRID').val()
+          socket.emit('my event', {
+               message : message
+          })
+          $('#message').val('').focus()
+        } )
+      } )
+      socket.on( 'my response', function( msg ) {
+      if( typeof msg.message !== 'undefined' ) {
+        console.log("Updated!")
+        jQuery.ajax({
+            url: '/chatlog/' + {{RID}},
+            success: function(response){
+            $('#chatlog').html(response);
+            },
+        });
+        }
+
+      })
+    </script>
+
 </body>
 </html>

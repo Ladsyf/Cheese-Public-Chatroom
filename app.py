@@ -2,6 +2,10 @@ from datetime import datetime
 
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
+
+import CRUDmessage
+from CRUDmessage import addMessage
 
 import CRUDroom
 from CRUDroom import add
@@ -11,6 +15,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
+socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
 
@@ -69,17 +74,19 @@ def createroom():
     return render_template('createroom.html')
 
 @app.route('/room/<RID>/<name>', methods=['GET', 'POST'])
-def roomview(RID, name): # add number of messages
-    if request.method == "POST":
-        if not request.form['message']:
-            flash('Please Enter a message!')
-        else:
-            message = Logs(RID, request.form['message'])
-
-            db.session.add(message)
-            db.session.commit()
-            flash('Message sent!')
-            return redirect(url_for('roomview', RID = RID, name = name))
+def roomview(RID, name):
+    # does not increment number of messages
+    # this block of code is meant for long polling/short polling
+    # if request.method == "POST":
+    #     if not request.form['message']:
+    #         flash('Please Enter a message!')
+    #     else:
+    #         message = Logs(RID, request.form['message'])
+    #
+    #         db.session.add(message)
+    #         db.session.commit()
+    #         flash('Message sent!')
+    #         return redirect(url_for('roomview', RID = RID, name = name))
 
     room = Rooms.query.filter_by(RID=RID, name = name).first()
     messages = Logs.query.filter_by(RID=RID).all()
@@ -93,6 +100,25 @@ def chatlogs(RID):
     messages = Logs.query.filter_by(RID=RID).all()
     return render_template('partial/chatlog.html', messages = messages)
 
+@app.route('/addMsg/<RID>/<message>')
+def addMsg(RID,message):
+    print(RID + " " + message)
+    CRUDroom.updateMessage(db, Rooms, RID)
+    CRUDmessage.addMessage(db, Logs, RID, message)
+    return redirect(url_for('chatlogs', RID = RID))
 
+@app.route('/session', methods=['GET', 'POST'])
+def session():
+    return render_template('session.html')
 
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
+
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
 
