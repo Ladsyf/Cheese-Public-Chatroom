@@ -49,8 +49,8 @@ class Logs(db.Model):
     def __repr__(self):
         return '<Logs %r>' % self.MID
 
-db.create_all()
-db.session.commit()
+#db.create_all()
+#db.session.commit()
 
 def getLastMessage(RID):
     LastMessage = Logs.query.filter_by(RID=RID).order_by(Logs.MID.desc()).first()
