@@ -10,3 +10,28 @@ every room has id, name, date, visibility, number of messages
     3. Search function
     4. Limiting to 5 users??
     5. Flash
+
+deploying to heroku flask, changes to make:
+	pip install gunicorn
+	pip install psycopg2
+
+	#Out put the required libraries
+	pip freeze > requirements.txt
+
+	#Procfile to run server
+	echo web: app:app > Procfile
+
+creating heroku app
+    heroku create <appname> -- cheesecake142
+
+    #create database on heroku
+    heroku addons:create heroku-postgresql:hobby-dev --app <appname>
+
+    #get the database URL
+    heroku config --app <appname>
+    #copy the url and paste on SQLDATABASE on app.py app.config
+
+
+
+
+
