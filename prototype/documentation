@@ -3,3 +3,10 @@ anyone can create a room
 a room can only handle specific number of messages, if it reached certain number of messages, it will be destroyed
 
 every room has id, name, date, visibility, number of messages
+
+# need to do/update:
+    1. Updating the number of messages in a specific room
+    2. deleting the room after 800 messages
+    3. Search function
+    4. Limiting to 5 users??
+    5. Flash

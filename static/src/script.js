@@ -42,7 +42,10 @@ $(document).ready(function(){
     })
 });
 function send(RID, Message){
-    console.log(RID + " " + Message)
+
+    if (Message == ""){
+        return
+    }
          $.ajax({
          method: "POST",
          url: '/addMsg',

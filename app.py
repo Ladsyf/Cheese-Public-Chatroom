@@ -59,9 +59,8 @@ def getLastMessage(RID):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    public_room = Rooms.query.filter_by(visibility = "public").all()
-    lm = Logs.query.all()
-    return render_template('listrooms.html',rooms = public_room, LastMessage = getLastMessage)
+    public_rooms = Rooms.query.filter_by(visibility = "public").all()
+    return render_template('listrooms.html',rooms = public_rooms, LastMessage = getLastMessage)
 
 @app.route('/createroom', methods=['GET', 'POST'])
 def createroom():
