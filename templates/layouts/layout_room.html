@@ -38,7 +38,7 @@
       if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
         $.ajax({
-            url: {{url_for('chatlogs', RID=RID)}},
+            url: '{{url_for('chatlogs', RID=RID)}}',
             success: function(response){
             $('#chatlog').html(response);
             },
