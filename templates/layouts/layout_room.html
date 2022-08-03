@@ -35,14 +35,14 @@
         } )
       } )
       socket.on( 'my response', function( msg ) {
-      if( typeof msg.message !== 'undefined' ) {
+    /*  if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
         $.ajax({
             url: '{{url_for('chatlogs', RID=RID)}}',
             success: function(response){
             $('#chatlog').html(response);
             },
-        });
+        });*/
         }
       })
     </script>
