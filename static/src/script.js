@@ -42,7 +42,7 @@ $(document).ready(function(){
     })
 });
 function send(RID, Message){
-
+    console.log("test")
     if (Message == ""){
         return
     }
