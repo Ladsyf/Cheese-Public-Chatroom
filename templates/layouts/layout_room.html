@@ -18,7 +18,7 @@
 
    <script type="text/javascript">
       // var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/' + {{RID}} + '/' + {{room.name}});
+      var socket = io.connect('https://' + document.domain);
       socket.on( 'connect', function() {
       console.log(document.domain + ':' + location.port)
         socket.emit( 'my event', {
@@ -38,7 +38,7 @@
       if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
         $.ajax({
-            url: '/chatlog/' + {{RID}},
+            url: {{url_for('chatlogs', RID=RID)}},
             success: function(response){
             $('#chatlog').html(response);
             },
