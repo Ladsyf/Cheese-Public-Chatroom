@@ -19,6 +19,7 @@
    <script type="text/javascript">
       // var socket = io.connect('http://' + document.domain + ':' + location.port);
       var socket = io.connect('https://' + document.domain);
+      console.log(document.domain)
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
           data: 'User Connected'
@@ -34,7 +35,6 @@
         } )
       } )
       socket.on( 'my response', function( msg ) {
-      console.log("abot")
       if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
         $.ajax({
