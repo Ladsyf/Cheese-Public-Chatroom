@@ -42,7 +42,6 @@ $(document).ready(function(){
     })
 });
 function send(RID, Message){
-    console.log("test")
     if (Message == ""){
         return
     }
@@ -52,5 +51,6 @@ function send(RID, Message){
          data: "RID=" + RID + "&message=" + Message
     }).done(function(response){
         $('#chatlog').html(response);
+        console.log("test")
     });
 }
