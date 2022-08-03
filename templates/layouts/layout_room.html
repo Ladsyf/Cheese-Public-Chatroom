@@ -34,6 +34,7 @@
         } )
       } )
       socket.on( 'my response', function( msg ) {
+      console.log("abot")
       if( typeof msg.message !== 'undefined' ) {
         console.log("Updated!")
         $.ajax({
