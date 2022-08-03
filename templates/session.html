@@ -16,7 +16,7 @@
       <input type="submit"/>
     </form>
    <script type="text/javascript">
-      var socket = io.connect('https://' + document.domain + ':443');
+      var socket = io.connect('https://' + document.domain + ':3000');
 
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
