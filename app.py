@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, send, emit
 
 import CRUDmessage
 from CRUDmessage import addMessage
