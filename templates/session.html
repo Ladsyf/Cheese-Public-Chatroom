@@ -29,14 +29,14 @@
           e.preventDefault()
           let user_name = $( 'input.username' ).val()
           let user_input = $( 'input.message' ).val()
-          socket.emit( 'my event', {
+          socket.emit( 'eventreceived', {
             user_name : user_name,
             message : user_input
           } )
           $( 'input.message' ).val( '' ).focus()
         } )
       } )
-      socket.on( 'my response', function( msg ) {
+      socket.on( 'message', function( msg ) {
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()

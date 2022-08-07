@@ -35,6 +35,7 @@
 //}
 //poll()
 $(document).ready(function(){
+console.log("tretr")
     RID = $('#uRID').val()
     $('#send').click(function(){
     Message = $('#message').val()

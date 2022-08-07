@@ -17,8 +17,8 @@
     {% endblock %}
 
    <script type="text/javascript">
-      // var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/');
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      //var socket = io.connect('https://' + document.domain + '/');
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
           data: 'User Connected'
@@ -27,22 +27,22 @@
           e.preventDefault()
           message = $('#message').val()
           msgCount = {{room.messages}}
-          socket.emit('my event', {
+          socket.emit('received event', {
                message : message
           })
           $('#message').val('').focus()
         } )
       } )
-      socket.on( 'my response', function( msg ) {
-    /*  if( typeof msg.message !== 'undefined' ) {
-        console.log("Updated!")
-        $.ajax({
-            url: '{{url_for('chatlogs', RID=RID)}}',
-            success: function(response){
-            $('#chatlog').html(response);
-            },
-        });
-        }*/
+      socket.on( 'message', function( msg ) {
+          if( typeof msg.message !== 'undefined' ) {
+            console.log("Updated!")
+            $.ajax({
+                url: '{{url_for('chatlogs', RID=RID)}}',
+                success: function(response){
+                $('#chatlog').html(response);
+                },
+            });
+            }
       })
     </script>
 
