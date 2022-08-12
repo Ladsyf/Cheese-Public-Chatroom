@@ -19,10 +19,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
     <script type="text/javascript">
 
-      var socket = io.connect('https://' + document.domain + ':' + location.port);
+      var socket = io.connect('https://' + document.domain + '/');
 
       socket.on( 'connect', function() {
-        socket.emit( 'my event', {
+        socket.emit( 'evenreceived', {
           data: 'User Connected'
         } )
         var form = $( 'form' ).on( 'submit', function( e ) {
