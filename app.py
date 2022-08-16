@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
-
+max_messages = 100
 
 class Rooms(db.Model):
     RID = db.Column(db.Integer, primary_key=True)
@@ -106,15 +106,19 @@ def roomview(RID, name):
 def chatlogs(RID):
     room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    return render_template('partial/chatlog.html', messages = messages, room = room)
+    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages)
 
 @app.route('/addMsg', methods = ['POST'])
 def addMsg():
     if request.method == "POST":
         RID = request.form['RID']
-        message = request.form['message']
-        CRUDroom.updateMessage(db, Rooms, RID)
-        CRUDmessage.addMessage(db, Logs, RID, message)
+        room = Rooms.query.filter_by(RID=RID).first()
+        if room.messages >= max_messages:
+            pass
+        else:
+            message = request.form['message']
+            CRUDroom.updateMessage(db, Rooms, RID)
+            CRUDmessage.addMessage(db, Logs, RID, message)
         return redirect(url_for('chatlogs', RID = RID))
     else:
         return redirect(url_for('index'))

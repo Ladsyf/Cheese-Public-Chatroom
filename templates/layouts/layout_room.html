@@ -36,14 +36,19 @@
       socket.on( 'message', function( msg ) {
           if( typeof msg.message !== 'undefined' ) {
             console.log("Updated!")
+            ajaxUpdate()
+            }
+      })
+      function ajaxUpdate(){
             $.ajax({
                 url: '{{url_for('chatlogs', RID=RID)}}',
                 success: function(response){
                 $('#chatlog').html(response);
                 },
             });
-            }
-      })
+      }
+      ajaxUpdate()
+
     </script>
 
 </body>
