@@ -3,12 +3,7 @@
 {% block content %}
     <div class = "w-[calc(100vw-100px)] mx-[50px]">
         <!-- Chat bar tab -->
-        <div class = "bg-slate-800 mt-10 p-5 px-10 rounded-t-3xl flex justify-between items-center flex-wrap">
-            <h1 class = "text-slate-400 text-2xl font-semibold w-1/2 truncate">{{name}} - {{room.messages}}/800</h1>
-            <a href = "/"><h1 class = "text-slate-400 text-2xl font-semibold text-right cursor-pointer">Back</h1></a>
-        </div>
-        <!-- chat content -->
-        <div class = "h-[calc(100vh-230px)] border-2 border-slate-800 p-5 px-10 overflow-auto flex flex-col-reverse" id = "chatlog"><br>
+        <div id = "chatlog">
             {% include 'partial/chatlog.html' %}
         </div>
         <!-- input message -->

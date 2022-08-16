@@ -1,9 +1,17 @@
 
-            {% if messages|length < 1 %}
-            <p class = "text-slate-400 text-center mb-[50px]">No Messages Created yet! Send a message anonymously!</p>
-            {% else %}
-                {% for x in range(messages|length) %}
-                    <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}}</p><br>
-                {% endfor %}
-            {% endif %}
-            <p class = "text-slate-400 text-center mb-[50px]">An anonymous started this chat room!</p>
+            <div class = "bg-slate-800 mt-10 p-5 px-10 rounded-t-3xl flex justify-between items-center flex-wrap">
+                <h1 class = "text-slate-400 text-2xl font-semibold w-1/2 truncate">{{room.name}} - {{room.messages}}/800</h1>
+                <a href = "/"><h1 class = "text-slate-400 text-2xl font-semibold text-right cursor-pointer">Back</h1></a>
+            </div>
+
+    <!-- chat content -->
+            <div class = "h-[calc(100vh-230px)] border-2 border-slate-800 p-5 px-10 overflow-auto flex flex-col-reverse"><br>
+                {% if messages|length < 1 %}
+                <p class = "text-slate-400 text-center mb-[50px]">No Messages Created yet! Send a message anonymously!</p>
+                {% else %}
+                    {% for x in range(messages|length) %}
+                        <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}}</p><br>
+                    {% endfor %}
+                {% endif %}
+                <p class = "text-slate-400 text-center mb-[50px]">An anonymous started this chat room!</p>
+            </div>

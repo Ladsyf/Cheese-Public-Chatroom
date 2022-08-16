@@ -12,8 +12,8 @@ from CRUDroom import add
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
@@ -95,7 +95,7 @@ def roomview(RID, name):
     #         flash('Message sent!')
     #         return redirect(url_for('roomview', RID = RID, name = name))
 
-    room = Rooms.query.filter_by(RID=RID, name = name).first()
+    room = Rooms.query.filter_by(RID=RID, name=name).first()
     messages = Logs.query.filter_by(RID=RID).all()
     if room:
         return render_template('room.html', RID = RID, name = name, room = room, messages = messages)
@@ -104,8 +104,9 @@ def roomview(RID, name):
 
 @app.route('/chatlog/<RID>')
 def chatlogs(RID):
+    room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    return render_template('partial/chatlog.html', messages = messages)
+    return render_template('partial/chatlog.html', messages = messages, room = room)
 
 @app.route('/addMsg', methods = ['POST'])
 def addMsg():
