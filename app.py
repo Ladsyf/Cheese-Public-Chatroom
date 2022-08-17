@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, send, emit
+from terminalChat import countDownDel
 
 import CRUDmessage
 from CRUDmessage import addMessage
@@ -31,14 +32,14 @@ class Rooms(db.Model):
     visibility = db.Column(db.String(20), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     messages = db.Column(db.Integer)
-    time = db.Column(db.Integer)
+    closing = db.Column(db.Boolean)
 
-    def __init__(self, name, date, visibility, messages, time):
+    def __init__(self, name, date, visibility, messages, closing):
         self.name = name
         self.visibility = visibility
         self.date = date
         self.messages = messages
-        self.time = time
+        self.closing = closing
 
     def __repr__(self):
         return '<Rooms %r>' % self.RID
@@ -78,7 +79,7 @@ def createroom():
             flash('Name already exists!')
         else:
             date = datetime.now()
-            room = Rooms(request.form['name'], date, request.form['visibility'], 0, 60)
+            room = Rooms(request.form['name'], date, request.form['visibility'], 0, False)
 
             db.session.add(room)
             db.session.commit()
@@ -112,24 +113,24 @@ def roomview(RID, name):
 def chatlogs(RID):
     room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    seconds = 0
-
+    closing = False
     if max_messages <= room.messages:
-        seconds = room.time
+        countDownDel(db, room, Rooms, Logs)
+        closing = room.closing
 
-    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages, seconds = seconds)
+    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages, closing = closing)
 
 @app.route('/addMsg', methods = ['POST'])
 def addMsg():
     if request.method == "POST":
         RID = request.form['RID']
         room = Rooms.query.filter_by(RID=RID).first()
-        if room.messages >= max_messages:
-            pass
-        else:
+        if room.messages < max_messages:
             message = request.form['message']
             CRUDroom.updateMessage(db, Rooms, RID)
             CRUDmessage.addMessage(db, Logs, RID, message)
+        else:
+            pass
         return redirect(url_for('chatlogs', RID = RID))
     else:
         return redirect(url_for('index'))
