@@ -1,5 +1,13 @@
-# This is a sample Python script.
+import time
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+running = True
+seconds = 10
+end = 0
 
+while running:
+    print(seconds)
+    time.sleep(1)
+    seconds = seconds - 1
+    if seconds < end:
+        running = False
+print("Done!!!")

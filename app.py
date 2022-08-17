@@ -10,6 +10,10 @@ from CRUDmessage import addMessage
 import CRUDroom
 from CRUDroom import add
 
+import time
+
+
+
 app = Flask(__name__)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
@@ -19,7 +23,7 @@ app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
-max_messages = 100
+max_messages = 10
 
 class Rooms(db.Model):
     RID = db.Column(db.Integer, primary_key=True)
@@ -27,12 +31,14 @@ class Rooms(db.Model):
     visibility = db.Column(db.String(20), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     messages = db.Column(db.Integer)
+    time = db.Column(db.Integer)
 
-    def __init__(self, name, date, visibility, messages):
+    def __init__(self, name, date, visibility, messages, time):
         self.name = name
         self.visibility = visibility
         self.date = date
         self.messages = messages
+        self.time = time
 
     def __repr__(self):
         return '<Rooms %r>' % self.RID
@@ -49,8 +55,8 @@ class Logs(db.Model):
     def __repr__(self):
         return '<Logs %r>' % self.MID
 
-#db.create_all()
-#db.session.commit()
+db.create_all()
+db.session.commit()
 
 def getLastMessage(RID):
     LastMessage = Logs.query.filter_by(RID=RID).order_by(Logs.MID.desc()).first()
@@ -72,7 +78,7 @@ def createroom():
             flash('Name already exists!')
         else:
             date = datetime.now()
-            room = Rooms(request.form['name'], date, request.form['visibility'], 0)
+            room = Rooms(request.form['name'], date, request.form['visibility'], 0, 60)
 
             db.session.add(room)
             db.session.commit()
@@ -106,7 +112,12 @@ def roomview(RID, name):
 def chatlogs(RID):
     room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages)
+    seconds = 0
+
+    if max_messages <= room.messages:
+        seconds = room.time
+
+    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages, seconds = seconds)
 
 @app.route('/addMsg', methods = ['POST'])
 def addMsg():
@@ -137,4 +148,3 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
-
