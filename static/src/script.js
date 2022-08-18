@@ -35,12 +35,12 @@
 //}
 //poll()
 $(document).ready(function(){
-console.log("tretr")
-    RID = $('#uRID').val()
-    $('#send').click(function(){
-    Message = $('#message').val()
-        send(RID, Message)
-    })
+//console.log("tretr")
+//    RID = $('#uRID').val()
+//    $('#send').click(function(){
+//    Message = $('#message').val()
+//        send(RID, Message)
+//    })
 });
 function send(RID, Message){
     if (Message == ""){

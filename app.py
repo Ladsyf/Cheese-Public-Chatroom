@@ -114,7 +114,6 @@ def chatlogs(RID):
     room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
 
-
     return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages)
 
 @app.route('/addMsg', methods = ['POST'])
@@ -126,8 +125,6 @@ def addMsg():
             message = request.form['message']
             CRUDroom.updateMessage(db, Rooms, RID)
             CRUDmessage.addMessage(db, Logs, RID, message)
-        else:
-            pass
         return redirect(url_for('chatlogs', RID = RID))
     else:
         return redirect(url_for('index'))

@@ -27,27 +27,46 @@
           e.preventDefault()
           message = $('#message').val()
           msgCount = {{room.messages}}
+          send({{RID}}, message)
           socket.emit('received event', {
                message : message
           })
+
+
+
           $('#message').val('').focus()
         } )
       } )
       socket.on( 'message', function( msg ) {
-          if( typeof msg.message !== 'undefined' ) {
-            console.log("Updated!")
+          if( msg.message !== "" ) {
             ajaxUpdate()
+            console.log(msg.message)
             }
       })
       function ajaxUpdate(){
             $.ajax({
-                url: '{{url_for('chatlogs', RID=RID)}}',
-                success: function(response){
+                method: "GET",
+                url: '{{url_for('chatlogs', RID=RID)}}'
+
+                }).done(function(response){
                 $('#chatlog').html(response);
-                },
+
             });
       }
-      ajaxUpdate()
+        function send(RID, Message){
+            if (Message == ""){
+                return
+            }
+                 $.ajax({
+                 method: "POST",
+                 url: '{{url_for('addMsg')}}',
+                 data: "RID=" + RID + "&message=" + Message
+            }).done(function(response){
+                $('#chatlog').html(response);
+                console.log("test")
+            });
+        }
+        ajaxUpdate()
 
     </script>
 
