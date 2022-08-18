@@ -9,8 +9,11 @@
                 {% if messages|length < 1 %}
                 <p class = "text-slate-400 text-center mb-[50px]">No Messages Created yet! Send a message anonymously!</p>
                 {% else %}
+                    {% if messages|length >= max_message %}
+                        <p class = "text-center p-6 rounded-3xl text-slate-400 text-xl font-light w-12/12">Maximum messages reached! The room will be deleted in a minute...</p><br>
+                    {% endif %}
                     {% for x in range(messages|length) %}
-                        <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}}</p><br>
+                        <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}} {{closing}}</p><br>
                     {% endfor %}
                 {% endif %}
                 <p class = "text-slate-400 text-center mb-[50px]">An anonymous started this chat room!</p>
