@@ -1,7 +1,7 @@
 
             <div class = "bg-slate-800 mt-10 p-5 px-10 rounded-t-3xl flex justify-between items-center flex-wrap">
                 <h1 class = "text-slate-400 text-2xl font-semibold w-1/2 truncate">{{room.name}} - {{room.messages}}/{{max_message}}</h1>
-                <a href = "/"><h1 class = "text-slate-400 text-2xl font-semibold text-right cursor-pointer">Back</h1></a>
+                <a href = {{url_for('index')}}><h1 class = "text-slate-400 text-2xl font-semibold text-right cursor-pointer">Back</h1></a>
             </div>
 
     <!-- chat content -->
@@ -9,9 +9,6 @@
                 {% if messages|length < 1 %}
                 <p class = "text-slate-400 text-center mb-[50px]">No Messages Created yet! Send a message anonymously!</p>
                 {% else %}
-                    {% if room.messages >= max_message %}
-                    <p class = "p-6 rounded-3xl text-slate-400 text-xl text-center font-light w-12/12"> Max messages reached! The room will now close under a minute!</p><br>
-                    {% endif %}
                     {% for x in range(messages|length) %}
                         <p class = "border border-gray-800 p-6 rounded-3xl text-slate-400 text-xl font-light w-10/12">{{messages[(messages|length - 1) - x].message}}</p><br>
                     {% endfor %}

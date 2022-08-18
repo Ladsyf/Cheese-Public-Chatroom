@@ -24,7 +24,7 @@ app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
-max_messages = 10
+max_messages = 800
 
 class Rooms(db.Model):
     RID = db.Column(db.Integer, primary_key=True)
@@ -113,12 +113,9 @@ def roomview(RID, name):
 def chatlogs(RID):
     room = Rooms.query.filter_by(RID=RID).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    closing = False
-    if max_messages <= room.messages:
-        countDownDel(db, room, Rooms, Logs)
-        closing = room.closing
 
-    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages, closing = closing)
+
+    return render_template('partial/chatlog.html', messages = messages, room = room, max_message = max_messages)
 
 @app.route('/addMsg', methods = ['POST'])
 def addMsg():
