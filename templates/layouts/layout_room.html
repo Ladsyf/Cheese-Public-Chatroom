@@ -20,9 +20,9 @@
       var socket = io.connect('http://' + document.domain + ':' + location.port);
       //var socket = io.connect('https://' + document.domain + '/');
       socket.on( 'connect', function() {
-        socket.emit( 'my event', {
-          data: 'User Connected'
-        } )
+        console.log(socket.id)
+        socket.emit( 'join',{"channel":{{RID}}}, function(){console.log("someone joined!")})
+
         var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
           message = $('#message').val()
@@ -31,14 +31,19 @@
           socket.emit('received event', {
                message : message
           })
-
-
-
           $('#message').val('').focus()
         } )
-      } )
+      })
+
+      socket.on( 'disconnected', function(){
+
+        socket.emit( 'leave', {"channel":{{RID}}}, function(){
+            console.log("running??")
+        })
+      })
+
       socket.on( 'message', function( msg ) {
-          if( msg.message !== "" ) {
+          if( msg.message !== "" && typeof msg.message !== 'undefined' ) {
             ajaxUpdate()
             console.log(msg.message)
             }
@@ -47,7 +52,6 @@
             $.ajax({
                 method: "GET",
                 url: '{{url_for('chatlogs', RID=RID)}}'
-
                 }).done(function(response){
                 $('#chatlog').html(response);
 

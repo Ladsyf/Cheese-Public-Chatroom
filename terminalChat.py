@@ -1,7 +1,7 @@
 from threading import Thread, Timer
 
 def countDownDel(db, room, Rooms, Logs):
-    time = 5
+    time = 40
     isClosing = room.closing
 
     if isClosing:

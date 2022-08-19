@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from terminalChat import countDownDel
 
 import CRUDmessage
@@ -24,7 +24,7 @@ app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
-max_messages = 100
+max_messages = 800
 
 class Rooms(db.Model):
     RID = db.Column(db.Integer, primary_key=True)
@@ -33,13 +33,15 @@ class Rooms(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     messages = db.Column(db.Integer)
     closing = db.Column(db.Boolean)
+    chatters = db.Column(db.Integer)
 
-    def __init__(self, name, date, visibility, messages, closing):
+    def __init__(self, name, date, visibility, messages, closing, chatters):
         self.name = name
         self.visibility = visibility
         self.date = date
         self.messages = messages
         self.closing = closing
+        self.chatters = chatters
 
     def __repr__(self):
         return '<Rooms %r>' % self.RID
@@ -79,7 +81,7 @@ def createroom():
             flash('Name already exists!')
         else:
             date = datetime.now()
-            room = Rooms(request.form['name'], date, request.form['visibility'], 0, False)
+            room = Rooms(request.form['name'], date, request.form['visibility'], 0, False, 0)
 
             db.session.add(room)
             db.session.commit()
@@ -104,8 +106,10 @@ def roomview(RID, name):
 
     room = Rooms.query.filter_by(RID=RID, name=name).first()
     messages = Logs.query.filter_by(RID=RID).all()
+    db.session.commit()
+    chatters = room.chatters
     if room:
-        return render_template('room.html', RID = RID, name = name, room = room, messages = messages)
+        return render_template('room.html', RID = RID, name = name, room = room, messages = messages, chatters = chatters)
     else:
         return redirect(url_for('index'))
 
@@ -143,6 +147,27 @@ def messageReceived(methods=['GET', 'POST']):
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('message', json, callback=messageReceived)
+
+@socketio.on('remove chatter')
+def remove_chatter(RID, methods=['GET', 'POST']):
+    print(RID)
+
+@socketio.on('join')
+def on_join(data, methods=['GET', 'POST']):
+    channel = data['channel']
+    join_room(channel)
+    send( "someone joined", to = channel)
+
+@socketio.on('leave')
+def on_leave(data, methods=['GET', 'POST']):
+    channel = data['channel']
+    leave_room(channel)
+    print("someone left")
+    send( "someone left", to = channel)
+
+@socketio.on('disconnect')
+def on_disconnect():
+    emit("disconnected")
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
