@@ -17,8 +17,8 @@ import time
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
@@ -146,7 +146,7 @@ def messageReceived(methods=['GET', 'POST']):
 @socketio.on('received event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
-    socketio.emit('message', json, callback=messageReceived)
+    socketio.emit('send msg', json, callback=messageReceived)
 
 @socketio.on('remove chatter')
 def remove_chatter(RID, methods=['GET', 'POST']):
@@ -156,18 +156,15 @@ def remove_chatter(RID, methods=['GET', 'POST']):
 def on_join(data, methods=['GET', 'POST']):
     channel = data['channel']
     join_room(channel)
+    print("someont joined on Room "+ str(channel))
     send( "someone joined", to = channel)
 
 @socketio.on('leave')
 def on_leave(data, methods=['GET', 'POST']):
     channel = data['channel']
     leave_room(channel)
-    print("someone left")
+    print("someone left on channel " + str(channel))
     send( "someone left", to = channel)
-
-@socketio.on('disconnect')
-def on_disconnect():
-    emit("disconnected")
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

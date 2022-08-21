@@ -10,18 +10,30 @@
     <script src = "{{url_for('static', filename='src/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script>
 </head>
-<body class = "bg-gray-900">
 
+<body class = "bg-gray-900">
+    <script>
+      //var socket = io.connect('http://' + document.domain + ':' + location.port);
+      var socket = io.connect('https://' + document.domain + '/');
+        window.onbeforeunload = function () {
+            socket.emit( 'leave', {"channel":{{RID}}} )
+        }
+
+    </script>
 
     {% block content %}
     {% endblock %}
 
    <script type="text/javascript">
-      var socket = io.connect('http://' + document.domain + ':' + location.port);
-      //var socket = io.connect('https://' + document.domain + '/');
+      //var socket = io.connect('http://' + document.domain + ':' + location.port);
+      var socket = io.connect('https://' + document.domain + '/');
       socket.on( 'connect', function() {
         console.log(socket.id)
-        socket.emit( 'join',{"channel":{{RID}}}, function(){console.log("someone joined!")})
+
+        socket.emit( 'join',{"channel":{{RID}}})
+        socket.on( 'message', function(data){
+            console.log(data)
+        })
 
         var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
@@ -35,14 +47,7 @@
         } )
       })
 
-      socket.on( 'disconnected', function(){
-
-        socket.emit( 'leave', {"channel":{{RID}}}, function(){
-            console.log("running??")
-        })
-      })
-
-      socket.on( 'message', function( msg ) {
+      socket.on( 'send msg', function( msg ) {
           if( msg.message !== "" && typeof msg.message !== 'undefined' ) {
             ajaxUpdate()
             console.log(msg.message)
