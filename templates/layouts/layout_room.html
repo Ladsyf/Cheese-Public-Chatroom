@@ -9,17 +9,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src = "{{url_for('static', filename='src/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script>
-</head>
-
-<body class = "bg-gray-900">
     <script>
       //var socket = io.connect('http://' + document.domain + ':' + location.port);
       var socket = io.connect('https://' + document.domain + '/');
         window.onbeforeunload = function () {
             socket.emit( 'leave', {"channel":{{RID}}} )
         }
-
     </script>
+</head>
+
+<body class = "bg-gray-900">
 
     {% block content %}
     {% endblock %}
