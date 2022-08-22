@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask_socketio import SocketIO, send, emit, join_room, leave_room, rooms
 from terminalChat import countDownDel
 
 import CRUDmessage
@@ -17,8 +17,8 @@ import time
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
@@ -148,23 +148,40 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('send msg', json, callback=messageReceived)
 
-@socketio.on('remove chatter')
-def remove_chatter(RID, methods=['GET', 'POST']):
-    print(RID)
-
 @socketio.on('join')
 def on_join(data, methods=['GET', 'POST']):
     channel = data['channel']
     join_room(channel)
-    print("someont joined on Room "+ str(channel))
+    leave_room(request.sid)
+    updateChattersCount(channel, True)
+    print("someone joined on Room "+ str(channel))
     send( "someone joined", to = channel)
 
 @socketio.on('leave')
-def on_leave(data, methods=['GET', 'POST']):
-    channel = data['channel']
+def on_leave(channel, methods=['GET', 'POST']):
     leave_room(channel)
-    print("someone left on channel " + str(channel))
+    updateChattersCount(channel, False)
+    print('someone disconnected: ' + str(request.sid) + " channel: " + str(channel))
     send( "someone left", to = channel)
+
+@socketio.on('disconnect')
+def on_disconnecting():
+    channel = rooms()[0]
+    socketio.emit('someone leftroom')
+    on_leave(channel)
+
+
+def updateChattersCount(RID, isAdd, methods=['GET', 'POST']):
+    room = Rooms.query.filter_by(RID = RID).first()
+
+    if isAdd:
+        room.chatters = room.chatters + 1
+    else:
+        room.chatters = room.chatters - 1
+
+    db.session.commit()
+    chatters = room.chatters
+    socketio.emit('update participants', chatters, room = RID)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
