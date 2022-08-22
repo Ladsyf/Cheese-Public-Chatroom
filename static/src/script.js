@@ -55,3 +55,7 @@ function send(RID, Message){
         console.log("test")
     });
 }
+
+function flushflash(){
+    $('.flushflash').hide();
+}

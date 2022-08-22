@@ -6,11 +6,14 @@ every room has id, name, date, visibility, number of messages
 
 # need to do/update:
     1. Updating the number of messages in a specific room ++
-    2. deleting the room after 800 messages --
-    3. Search function
-    4. Limiting to 5 users??
-    5. Flash
+    2. deleting the room after 800 messages ++
+    3. Limiting to 5 users?? ++
+    4. Search function
+    5. Flash ++
     6. Anti Spam
+    7. Delete inactive private rooms
+    8. About
+    9. Copy link ++
 
 deploying to heroku flask, changes to make:
 	pip install gunicorn

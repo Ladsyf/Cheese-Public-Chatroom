@@ -1,0 +1,13 @@
+    {% if get_flashed_messages(with_categories = true) %}
+    <div class = "fixed flushflash flex items-center justify-center h-screen w-screen bg-black/[.5] block text-slate-400 transition-opacity" onclick = "flushflash()">
+        <div class =  "bg-slate-900 h-fit justify-center text-lg items-center text-center text-xl rounded-xl p-10">
+            <h3 class = "font-bold text-3xl">Notice!</h3>
+            <p class = "py-8">
+                {% for category, flashMSG in get_flashed_messages(with_categories = true) %}
+                    {{flashMSG}}
+                    {% endfor %}
+            </p>
+            <p class = "text-base text-slate-300">Click anywhere to continue...</p>
+        </div>
+    </div>
+    {% endif %}

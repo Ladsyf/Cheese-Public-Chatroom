@@ -13,13 +13,27 @@
 </head>
 
 <body class = "bg-gray-900">
-
+    <div class = "flashMSG">
+    {% if get_flashed_messages(with_categories = true) %}
+    <div class = "fixed flushflash flex items-center justify-center h-screen w-screen bg-black/[.5] block text-slate-400 transition-opacity" onclick = "flushflash()">
+        <div class =  "bg-slate-900 h-fit justify-center text-lg items-center text-center text-xl rounded-xl p-10">
+            <h3 class = "font-bold text-3xl">Notice!</h3>
+            <p class = "py-8">
+                {% for category, flashMSG in get_flashed_messages(with_categories = true) %}
+                    {{flashMSG}}
+                    {% endfor %}
+            </p>
+            <p class = "text-base text-slate-300">Click anywhere to continue...</p>
+        </div>
+    </div>
+    {% endif %}
+    </div>
     {% block content %}
     {% endblock %}
 
    <script type="text/javascript">
-      //var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/');
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      //var socket = io.connect('https://' + document.domain + '/');
 
       socket.on( 'connect', function() {
         console.log(socket.id)
@@ -65,7 +79,7 @@
           $.ajax({
 
             }).done(function(){
-                $('#participants').html("Participants: "+ chatters + "/5")
+                $('#participants').html("Participants: "+ chatters + "/3")
                 console.log("Participants Updated!")
             });
       }
@@ -83,7 +97,18 @@
             });
         }
         ajaxUpdate()
+        function copyLink(){
+              var copyText = window.location.href
 
+              navigator.clipboard.writeText(copyText);
+
+              $.ajax({
+                url: '{{url_for('copyLink')}}'
+              }).done(function(data){
+                $(".flashMSG").html(data)
+              })
+
+            }
     </script>
 
 </body>

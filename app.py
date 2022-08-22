@@ -17,14 +17,16 @@ import time
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcvfynsismyhnc:2d819455cbdf3297b9e1bebf9c5b12c8f777eefa5a8aad60709db0789e9d5255@ec2-54-85-56-210.compute-1.amazonaws.com:5432/davqk24266br2q'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cheese.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '*$0)rdca5#fNJLFfF]3E'
 socketio = SocketIO(app)
 
 db = SQLAlchemy(app)
-max_messages = 800
+max_messages = 500
+max_participants = 3
+max_rooms = 6
 
 class Rooms(db.Model):
     RID = db.Column(db.Integer, primary_key=True)
@@ -74,8 +76,11 @@ def index():
 
 @app.route('/createroom', methods=['GET', 'POST'])
 def createroom():
+    roomQuery = Rooms.query.count()
     if request.method == "POST":
-        if not request.form['name']:
+        if roomQuery >= max_rooms:
+            flash("Sorry, the creation of rooms are currently closed due to maximum numbers of rooms")
+        elif not request.form['name']:
             flash('Please Enter a Room Name!')
         elif Rooms.query.filter_by(name=request.form['name']).first():
             flash('Name already exists!')
@@ -85,8 +90,7 @@ def createroom():
 
             db.session.add(room)
             db.session.commit()
-            flash('Successfully Added!')
-            return redirect(url_for('index'))
+            return redirect(url_for('roomview', RID = room.RID, name = room.name))
     return render_template('createroom.html')
 
 @app.route('/room/<RID>/<name>', methods=['GET', 'POST'])
@@ -106,10 +110,15 @@ def roomview(RID, name):
 
     room = Rooms.query.filter_by(RID=RID, name=name).first()
     messages = Logs.query.filter_by(RID=RID).all()
+    #room.chatters = 0
     db.session.commit()
     chatters = room.chatters
     if room:
-        return render_template('room.html', RID = RID, name = name, room = room, messages = messages, chatters = chatters)
+        if chatters < max_participants:
+            return render_template('room.html', RID = RID, name = name, room = room, messages = messages, chatters = chatters)
+        else:
+            flash("The room is currently full, please try again later")
+            return redirect(url_for('index'))
     else:
         return redirect(url_for('index'))
 
@@ -139,6 +148,11 @@ def addMsg():
 @app.route('/session', methods=['GET', 'POST'])
 def session():
     return render_template('session.html')
+
+@app.route('/copyLink')
+def copyLink():
+    flash("Link coppied!")
+    return render_template('partial/copyNoticeFlash.html')
 
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
@@ -171,6 +185,7 @@ def on_disconnecting():
     on_leave(channel)
 
 
+
 def updateChattersCount(RID, isAdd, methods=['GET', 'POST']):
     room = Rooms.query.filter_by(RID = RID).first()
 
@@ -182,6 +197,16 @@ def updateChattersCount(RID, isAdd, methods=['GET', 'POST']):
     db.session.commit()
     chatters = room.chatters
     socketio.emit('update participants', chatters, room = RID)
+
+def onServerReset_ResetParticipants():
+    #this ensures that the participants are back to 0 when the server starts
+    room = Rooms.query.all()
+    for r in room:
+        r.chatters = 0
+        db.session.commit()
+
+
+onServerReset_ResetParticipants()
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

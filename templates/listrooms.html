@@ -27,7 +27,7 @@
             <div class = "border border-gray-800 w-[calc(50%-8px)] m-1 rounded p-5 overflow-hidden hover:bg-gray-800 transition">
                 <a href = {{url_for('roomview', RID = room.RID, name = room.name)}}>
                     <h2 class = "text-slate-400 text-2xl cursor-pointer font-semibold truncate hover:underline">
-                        {{room.name}} - {{room.messages}}/800
+                        {{room.name}} - {{room.messages}}/500
                     </h2>
                 </a>
                 <p class = "text-slate-500">Created: {{room.date}}</p>
