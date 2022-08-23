@@ -32,8 +32,8 @@
     {% endblock %}
 
    <script type="text/javascript">
-      //var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/');
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      //var socket = io.connect('https://' + document.domain + '/');
 
       socket.on( 'connect', function() {
         console.log(socket.id)
@@ -98,9 +98,13 @@
         }
         ajaxUpdate()
         function copyLink(){
+              var msgPrefix = "Say Hello to the World! \n\nCome and Join me on: "
+
               var copyText = window.location.href
 
-              navigator.clipboard.writeText(copyText);
+              var msgSuffix = "\n\nI'll be waiting for you there!"
+
+              navigator.clipboard.writeText(msgPrefix + copyText + msgSuffix);
 
               $.ajax({
                 url: '{{url_for('copyLink')}}'

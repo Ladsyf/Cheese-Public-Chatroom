@@ -41,6 +41,21 @@ $(document).ready(function(){
 //    Message = $('#message').val()
 //        send(RID, Message)
 //    })
+
+    $("#searchQuery").keyup(function(){
+        query = $("#searchQuery").val()
+        if (query == ""){
+            query = ""
+        }
+        $.ajax({
+            method: "GET",
+            url: '/',
+            data: "query="+query
+        }).done(function(data){
+            $("#roomsList").html(data)
+        });
+    });
+
 });
 function send(RID, Message){
     if (Message == ""){

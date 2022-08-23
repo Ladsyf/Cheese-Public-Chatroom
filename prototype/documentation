@@ -8,7 +8,7 @@ every room has id, name, date, visibility, number of messages
     1. Updating the number of messages in a specific room ++
     2. deleting the room after 800 messages ++
     3. Limiting to 5 users?? ++
-    4. Search function
+    4. Search function ++
     5. Flash ++
     6. Anti Spam
     7. Delete inactive private rooms

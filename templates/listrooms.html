@@ -6,36 +6,17 @@
         background-color: rgb(31 41 55);
        }
 </style>
+
     <div class = "div2">
 
         <!-- form for search function -->
         <div class = "flex justify-start flex-wrap py-10">
-        <form>
-            <input type = "text" placeholder = "Search Chat Room" class = "bg-slate-800 rounded-md p-3 text-slate-400 font-light focus:outline-none ml-[50px]">
-            <input type = "submit" value = "Go!" class = "bg-blue-900 rounded-md text-slate-200 p-4 py-3">
-        </form>
+            <input type = "text" placeholder = "Search Chat Room" id = "searchQuery" class = "bg-slate-800 rounded-md p-3 text-slate-400 font-light focus:outline-none ml-[50px] w-[300px]">
         </div>
 
         <!-- Rooms List -->
-        <div class = "flex flex-wrap mx-[50px]">
-      {% if rooms|length < 1 %}
-
-        <h4 class = "text-center text-slate-400">No active rooms found!</h4>
-
-      {% else %}
-            {% for room in rooms %}
-            <div class = "border border-gray-800 w-[calc(50%-8px)] m-1 rounded p-5 overflow-hidden hover:bg-gray-800 transition">
-                <a href = {{url_for('roomview', RID = room.RID, name = room.name)}}>
-                    <h2 class = "text-slate-400 text-2xl cursor-pointer font-semibold truncate hover:underline">
-                        {{room.name}} - {{room.messages}}/500
-                    </h2>
-                </a>
-                <p class = "text-slate-500">Created: {{room.date}}</p>
-
-                <p class = "text-slate-600 text-[14px] font-normal truncate">Last Message: "{{LastMessage(room.RID)}}"</p>
-            </div>
-            {% endfor %}
+        <div class = "flex flex-wrap mx-[50px]" id = "roomsList">
+            {% include 'partial/roomsQuery.html' %}
         </div>
-      {% endif %}
     </div>
 {% endblock %}
