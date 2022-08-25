@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, flash, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, send, emit, join_room, leave_room, rooms
-from terminalChat import countDownDel
+from terminalChat import countDownDel, delete
 
 import CRUDmessage
 from CRUDmessage import addMessage
@@ -118,10 +118,9 @@ def roomview(RID, name):
 
     room = Rooms.query.filter_by(RID=RID, name=name).first()
     messages = Logs.query.filter_by(RID=RID).all()
-    #room.chatters = 0
-    db.session.commit()
-    chatters = room.chatters
+
     if room:
+        chatters = room.chatters
         if chatters < max_participants:
             return render_template('room.html', RID = RID, name = name, room = room, messages = messages, chatters = chatters)
         else:
@@ -192,7 +191,9 @@ def on_disconnecting():
     socketio.emit('someone leftroom')
     on_leave(channel)
 
-
+def deleteRoom(RID):
+    room = Rooms.query.filter_by(RID=RID).first()
+    delete(db, room, Rooms, Logs)
 
 def updateChattersCount(RID, isAdd, methods=['GET', 'POST']):
     room = Rooms.query.filter_by(RID = RID).first()
@@ -201,6 +202,8 @@ def updateChattersCount(RID, isAdd, methods=['GET', 'POST']):
         room.chatters = room.chatters + 1
     else:
         room.chatters = room.chatters - 1
+        if room.chatters <= 0 and room.visibility == "private":
+            deleteRoom(RID)
 
     db.session.commit()
     chatters = room.chatters
