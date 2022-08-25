@@ -56,6 +56,10 @@ $(document).ready(function(){
         });
     });
 
+    $("#send").click(function(){
+       antiSpam()
+    });
+
 });
 function send(RID, Message){
     if (Message == ""){
@@ -73,4 +77,25 @@ function send(RID, Message){
 
 function flushflash(){
     $('.flushflash').hide();
+}
+function antiSpam(){
+    messageCountSeconds = 5
+
+    $("#message").attr("placeholder", "You can send a message again in " + messageCountSeconds)
+
+    $("#message").prop("disabled", true)
+
+    start = setInterval(function () {
+    messageCountSeconds = messageCountSeconds - 1
+    $("#message").attr("placeholder", "You can send a message again in " + messageCountSeconds)
+        if(messageCountSeconds <= 0){
+            stopCounting(start)
+        }
+    },1000);
+
+}
+function stopCounting(timer){
+      $("#message").prop("disabled", false)
+      $("#message").attr("placeholder", "Enter your anonymous message here...")
+      clearInterval(timer)
 }
