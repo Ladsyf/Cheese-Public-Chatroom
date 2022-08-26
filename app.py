@@ -156,10 +156,6 @@ def addMsg():
     else:
         return redirect(url_for('index'))
 
-@app.route('/session', methods=['GET', 'POST'])
-def session():
-    return render_template('session.html')
-
 @app.route('/copyLink')
 def copyLink():
     flash("Invitation Coppied!")
