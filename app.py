@@ -101,6 +101,10 @@ def createroom():
             return redirect(url_for('roomview', RID = room.RID, name = room.name))
     return render_template('createroom.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/room/<RID>/<name>', methods=['GET', 'POST'])
 def roomview(RID, name):
     # does not increment number of messages
