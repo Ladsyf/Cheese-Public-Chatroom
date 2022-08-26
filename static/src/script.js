@@ -82,7 +82,7 @@ function antiSpam(){
     messageCountSeconds = 5
 
     $("#message").attr("placeholder", "You can send a message again in " + messageCountSeconds)
-
+    $("#send").prop("disabled", true)
     $("#message").prop("disabled", true)
 
     start = setInterval(function () {
@@ -96,6 +96,7 @@ function antiSpam(){
 }
 function stopCounting(timer){
       $("#message").prop("disabled", false)
+      $("#send").prop("disabled", false)
       $("#message").attr("placeholder", "Enter your anonymous message here...")
       clearInterval(timer)
 }
