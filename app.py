@@ -158,7 +158,7 @@ def addMsg():
 
 @app.route('/copyLink')
 def copyLink():
-    flash("Invitation Coppied!")
+    flash("Invitation Copied!")
     return render_template('partial/copyNoticeFlash.html')
 
 def messageReceived(methods=['GET', 'POST']):

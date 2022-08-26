@@ -7,21 +7,69 @@
        }
 </style>
 <div>
-    <h1 class = "text-center text-slate-400 text-4xl p-16 font-semibold">DOCUMENTATION</h1>
+    <h1 class = "text-center text-slate-400 text-2xl p-14 font-semibold">DOCUMENTATION</h1>
 </div>
 
+<div class = "mx-[10%] mb-[80px] text-slate-400 text-xl font-light opacity-80 text-justify">
 
-<!--
-    #ROOM
-        visibility
-            public
-            private - deleted when no one is in
+<p class = "pb-5">A simple chat application, where anyone can create and join a room and have a conversation inside the room.</p>
 
-        limit
+<h3 class = "indent-7 my-3 font-bold">Rooms</h3>
 
+    <p class = "indent-14 my-3 font-semibold">Visibility</p>
 
-    #MESSAGE
+            <p class = "pl-20 my-3"><b>Public</b> -
+                When a room is public, it is visible and searchable on chat rooms list page
+            </p>
 
--->
+            <p class = "pl-20 my-3"><b>Private</b> -
+                A private room is not visible or searchable on chat rooms list or
+                any page of the site, when a private room's participants goes down to zero(0),
+                the room is automatically deleted.
+            </p>
+
+    <p class = "indent-14 my-3 font-semibold">Create Rooms</p>
+
+            <p class = "pl-20 my-3">Anyone can create a room, from "create a room" page, the user can choose the visibility,
+            and it should not be named after any current existing room names.
+            </p>
+
+    <p class = "indent-14 my-3 font-semibold">Limitations</p>
+
+            <p class = "pl-20 my-3"><b>Maximum Rooms</b> -
+                Even though anyone can create a room, there's a limit on how many rooms the server may allow,
+                the maximum rooms allowed to be existing simultaneously is six(6). The only way to create a room
+                again after hitting the maximum rooms allowed is to wait for the other rooms to be deleted when it
+                reached the maximum messages allowed.
+            </p>
+
+            <p class = "pl-20 my-3"><b>Maximum Participants</b> -
+                Every user is a participant, when a user joins a room, it will be counted as one. A room can handle
+                three(3) participants at a time, joining a full room will show an error.
+            </p>
+
+    <p class = "indent-14 my-3 font-semibold">Copy Invitation Link</p>
+
+            <p class = "pl-20 my-3">When a room is created, an invitation text can be copied by clicking "here" in
+                "Click Here to Copy this room's invitation" from the chat box.
+                Utilize this feature especially for private rooms.
+            </p>
+
+<h3 class = "indent-7 my-3 font-bold">Message</h3>
+
+    <p class = "indent-14 my-3 font-semibold">Limitation</p>
+
+            <p class = "pl-20 my-3"><b>Maximum Messages</b> -
+                Every room has 500 messages limit, upon reaching the limit, the users will no longer be able to
+                send a message to a room, and the room will be deleted in 40 seconds.
+             </p>
+
+    <p class = "indent-14 my-3 font-semibold">Anti-spam</p>
+
+            <p class = "pl-20 my-3">
+                After every message sent by a user, the user will have to wait for 5 seconds to avoid spamming of message.
+            </p>
+
+</div>
 
 {% endblock %}
