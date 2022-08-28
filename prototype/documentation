@@ -1,5 +1,7 @@
 anyone can create a room
 
+18/08/22
+
 a room can only handle specific number of messages, if it reached certain number of messages, it will be destroyed
 
 every room has id, name, date, visibility, number of messages
