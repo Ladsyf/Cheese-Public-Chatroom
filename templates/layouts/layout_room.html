@@ -32,8 +32,8 @@
     {% endblock %}
 
    <script type="text/javascript">
-      //var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/');
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      //var socket = io.connect('https://' + document.domain + '/');
 
       socket.on( 'connect', function() {
         console.log(socket.id)
@@ -50,7 +50,7 @@
           socket.emit('received event', {
                message : message
           })
-          $('#message').val('').focus()
+
         } )
 
           socket.on( 'update participants', function(chatters){
@@ -59,14 +59,14 @@
           })
       })
 
-
       socket.on( 'send msg', function( msg ) {
           if( msg.message !== "" && typeof msg.message !== 'undefined' ) {
+
             ajaxUpdate()
-            console.log(msg.message)
+
             }
       })
-      function ajaxUpdate(){
+      function ajaxUpdate(){//updating chatbox function
             $.ajax({
                 method: "GET",
                 url: '{{url_for('chatlogs', RID=RID)}}'
@@ -74,15 +74,15 @@
                 $('#chatlog').html(response);
             });
       }
-      function updateParticipants(chatters){
+      function updateParticipants(chatters){//updating participants function
           $.ajax({
 
             }).done(function(){
                 $('#participants').html("Participants: "+ chatters + "/3")
-                console.log("Participants Updated!")
+
             });
       }
-        function send(RID, Message){
+        function send(RID, Message){//function to add message trigger
             if (Message == ""){
                 return
             }
@@ -92,7 +92,7 @@
                  data: "RID=" + RID + "&message=" + Message
             }).done(function(response){
                 $('#chatlog').html(response);
-                console.log("test")
+
             });
         }
         ajaxUpdate()

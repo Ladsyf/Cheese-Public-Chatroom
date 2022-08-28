@@ -35,12 +35,14 @@
 //}
 //poll()
 $(document).ready(function(){
-//console.log("tretr")
-//    RID = $('#uRID').val()
-//    $('#send').click(function(){
-//    Message = $('#message').val()
-//        send(RID, Message)
-//    })
+
+    RID = $('#uRID').val()
+    $('#send').click(function(){
+    Message = $('#message').val()
+    $('#message').val('').focus()
+        send(RID, Message)
+        antiSpam()
+    })
 
     $("#searchQuery").keyup(function(){
         query = $("#searchQuery").val()
@@ -56,9 +58,6 @@ $(document).ready(function(){
         });
     });
 
-    $("#send").click(function(){
-       antiSpam()
-    });
 
 });
 function send(RID, Message){
@@ -84,7 +83,6 @@ function antiSpam(){
     $("#message").attr("placeholder", "You can send a message again in " + messageCountSeconds)
     $("#send").prop("disabled", true)
     $("#message").prop("disabled", true)
-
     start = setInterval(function () {
     messageCountSeconds = messageCountSeconds - 1
     $("#message").attr("placeholder", "You can send a message again in " + messageCountSeconds)
