@@ -32,8 +32,8 @@
     {% endblock %}
 
    <script type="text/javascript">
-      //var socket = io.connect('http://' + document.domain + ':' + location.port);
-      var socket = io.connect('https://' + document.domain + '/');
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      //var socket = io.connect('https://' + document.domain + '/');
 
       socket.on( 'connect', function() {
         console.log(socket.id)
@@ -50,20 +50,18 @@
           socket.emit('received event', {
                message : message
           })
+            sendMessageAfter()
 
         } )
 
           socket.on( 'update participants', function(chatters){
-                console.log(chatters)
                 updateParticipants(chatters)
           })
       })
 
       socket.on( 'send msg', function( msg ) {
           if( msg.message !== "" && typeof msg.message !== 'undefined' ) {
-
-            ajaxUpdate()
-
+                ajaxUpdate()
             }
       })
       function ajaxUpdate(){//updating chatbox function

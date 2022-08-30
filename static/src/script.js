@@ -37,12 +37,6 @@
 $(document).ready(function(){
 
     RID = $('#uRID').val()
-    $('#send').click(function(){
-    Message = $('#message').val()
-    $('#message').val('').focus()
-        send(RID, Message)
-        antiSpam()
-    })
 
     $("#searchQuery").keyup(function(){
         query = $("#searchQuery").val()
@@ -60,6 +54,13 @@ $(document).ready(function(){
 
 
 });
+function sendMessageAfter(){
+    RID = $('#uRID').val()
+    Message = $('#message').val()
+    $('#message').val('').focus()
+        antiSpam()
+}
+
 function send(RID, Message){
     if (Message == ""){
         return
