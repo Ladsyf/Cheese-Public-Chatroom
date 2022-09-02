@@ -7,7 +7,7 @@ initializing tailwind
         content: ["./*.{html,php}"], OR
         content: ["./*.html"],
 
-    global.css:
+    assets/css/global.css:
         @tailwind base;
         @tailwind components;
         @tailwind utilities;
@@ -17,6 +17,9 @@ initializing tailwind
         "dev": "npx tailwindcss -i assets/css/global.css -o assets/css/tailwind.css --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
         },
+
+    index.html:
+        <link rel="stylesheet" href="assets/css/tailwind.css">
 
     - npm run dev
 
